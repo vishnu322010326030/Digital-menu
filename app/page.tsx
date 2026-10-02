@@ -272,7 +272,7 @@ export default function Home() {
                 <span className="like-spark">✦</span>
                 <div>
                   <p className="eyebrow gold">YOU&apos;LL PROBABLY LIKE THIS IF...</p>
-                  <p>You enjoy {selected.likeIf}</p>
+                  <p>{selected.likeIf}</p>
                 </div>
               </section>
 
