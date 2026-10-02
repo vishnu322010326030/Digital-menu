@@ -2,56 +2,106 @@
 
 Premium mobile-first digital menu demo for **Chennai Dosa** — *quality is trust*.
 
-## Phase 1
+## Demo features
 
-- 1–2 second animated welcome experience
+- Animated 1–3 second Chennai Dosa welcome experience
 - 12-item Indian demo menu
-- Search by dish, flavor, or category
-- Veg / non-veg selection filters
+- Search by dish, flavor, category, or ingredient
+- Veg / non-veg filters
 - Horizontal category navigation
-- Rich menu cards with photo, taste, category, price, and heat
-- Mobile bottom-sheet item details
-- Add-to-cart from menu cards or item details
-- Persistent local cart using browser localStorage
+- Rich menu cards with photo, taste, category, price, and chilli-based spice level
+- Mobile bottom-sheet dish details
+- Taste-profile / Flavor DNA visualization
+- Interactive ingredient explorer
+- Dietary style and allergen summary
+- Familiar-food guidance: “You’ll probably like this if…”
+- Smart pairings with “Best with” and “Finish with” suggestions
+- Add-to-cart from cards, details, pairings, and recommendations
+- Persistent cart using browser localStorage
 - Quantity controls and running total
-- Waiter-oriented cart flow
-- Responsive phone-first design
+- Waiter-oriented “Show my order” flow
+- Browser Back closes dish/cart/shuffler overlays before leaving the site
+- Mobile touch reliability safeguards
 - Reduced-motion accessibility support
-- Lazy-loaded food photography where appropriate
+
+## Food Shuffler
+
+The Food Shuffler is a guided four-question meal builder:
+
+1. Biryani/rice vs. naan + curry
+2. Vegetarian / non-vegetarian / either
+3. Mild / medium / bold spice comfort
+4. Cool/light vs. sweet/indulgent finish
+
+It returns an actual meal made from the demo menu:
+
+**Starter → Main → Side (when relevant) → Drink → Dessert**
+
+Recommendations are deterministic and tested, so the same preferences produce a consistent meal. Customers can inspect individual recommended dishes or add the complete suggested meal to the cart.
 
 ## Stack
 
 - Next.js
 - React
 - TypeScript
-- Custom CSS visual system
+- Custom mobile-first CSS / glassmorphism system
+- Local browser storage for the demo cart
+- Node test runner + TSX for recommendation tests
+- GitHub Actions verification
 
-The first phase intentionally avoids a database. Menu data lives in `app/data.ts` so the prototype stays fast and easy to deploy.
+The demo intentionally avoids a database so it stays fast and simple to deploy.
 
-## Run locally
+## Local development
 
 ```bash
 npm install
 npm run dev
 ```
 
-Then open `http://localhost:3000`.
+Open:
 
-## Build
+```text
+http://localhost:3000
+```
+
+## Real-phone preview on your local network
+
+Use the production-style mobile preview rather than the Next.js HMR development path:
 
 ```bash
-npm run build
-npm start
+npm run mobile
 ```
+
+Then open:
+
+```text
+http://YOUR-LAPTOP-IP:3000
+```
+
+on a phone connected to the same Wi-Fi.
+
+## Verification
+
+```bash
+npm run verify
+```
+
+This runs:
+
+- TypeScript type checking
+- Food Shuffler unit tests
+- Next.js production build
+
+GitHub Actions runs the same checks for the main branch.
+
+## Vercel
+
+This repository is structured as a standard Next.js application and can be imported directly into Vercel. No database or environment variables are required for the current demo.
 
 ## Demo photography
 
-Phase 1 currently references externally hosted demo photography. Before commercial use, replace these with restaurant-owned or properly licensed assets and host optimized local WebP/AVIF versions. The demo asset set covers all 12 menu items and is isolated in `app/data.ts` for easy replacement.
+The current demo references externally hosted food photography. Before commercial use, replace those images with restaurant-owned or properly licensed assets and host optimized local WebP/AVIF files.
 
-## Roadmap
+## Future product ideas
 
-**Phase 2:** detailed taste profiles, separate heat and spice-complexity scales, ingredient explorer, dietary/allergen information, and familiar-food comparisons.
-
-**Phase 3:** discovery, meal-building, smart pairings, and recommendation flows.
-
-**Phase 4:** advanced 3D/WebGL presentation and premium visual effects, with strict mobile performance limits.
+Potential post-demo additions include table-aware ordering, multilingual dish explanations, restaurant admin controls, item availability, analytics, POS/payment integration, and advanced 3D/WebGL food presentation.
