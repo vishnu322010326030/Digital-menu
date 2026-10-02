@@ -433,10 +433,10 @@ export default function Home() {
           </nav>
 
           <div className="shuffle-launcher">
-            <div className="shuffle-cloud" aria-hidden="true">
+            <button className="shuffle-cloud" onClick={openShuffler} aria-label="Try the Food Shuffler">
               <b>Food Shuffler</b>
               <span>Try something new, matched to your taste.</span>
-            </div>
+            </button>
             <button className="shuffle-fab" onClick={openShuffler} aria-label="Open Food Shuffler">
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M4 7h2.2c4.8 0 5.5 10 10.5 10H20" />
