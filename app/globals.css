@@ -221,9 +221,33 @@ img { display: block; }
   .cart-dock-wrap.show { transform:translate(-50%,0); }
 }
 @media (prefers-reduced-motion: reduce) {
-  *,*::before,*::after { animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important; }
-  .splash { display:none; }
-  .app-hidden { opacity:1; transform:none; }
+  html { scroll-behavior: auto; }
+
+  /* Keep the welcome visible, but use a calm fade instead of large/continuous motion. */
+  .splash-card {
+    animation: reducedSplashFade .45s ease both !important;
+  }
+  .splash-welcome,
+  .splash-card h1,
+  .splash-card .splash-tagline,
+  .splash-message {
+    animation: reducedSplashFade .35s ease both !important;
+    opacity: 1;
+  }
+  .splash-divider span {
+    animation: none !important;
+    transform: none;
+  }
+  .food-card,
+  .ingredient-focus,
+  .taste-track i {
+    animation: none !important;
+  }
+}
+
+@keyframes reducedSplashFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 
@@ -933,4 +957,40 @@ button:focus-visible {
   .splash-card::before {
     animation: none !important;
   }
+}
+
+
+/* Make the opening unmistakably visible on every fresh page load. */
+.splash-logo-shell {
+  animation: logoBreath 1.45s ease-in-out .15s both;
+}
+.splash-logo {
+  animation: logoReveal .72s cubic-bezier(.2,.8,.2,1) .08s both;
+}
+.splash-card {
+  transform-origin: center;
+}
+.splash-card::after {
+  content: "";
+  position: absolute;
+  left: 15%;
+  right: 15%;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg,transparent,rgba(229,193,124,.75),transparent);
+  transform: scaleX(0);
+  animation: splashProgress 2.35s .15s ease-out forwards;
+}
+@keyframes logoReveal {
+  from { opacity: 0; transform: scale(.82) translateY(7px); filter: blur(5px); }
+  to { opacity: 1; transform: none; filter: blur(0); }
+}
+@keyframes logoBreath {
+  0% { box-shadow: 0 14px 35px rgba(0,0,0,.25), 0 0 0 rgba(214,174,100,0); }
+  50% { box-shadow: 0 14px 35px rgba(0,0,0,.25), 0 0 42px rgba(214,174,100,.22); }
+  100% { box-shadow: 0 14px 35px rgba(0,0,0,.25), 0 0 20px rgba(214,174,100,.08); }
+}
+@keyframes splashProgress {
+  0% { transform: scaleX(0); opacity: .25; }
+  100% { transform: scaleX(1); opacity: .95; }
 }
