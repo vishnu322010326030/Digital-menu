@@ -21,30 +21,43 @@ function Spice({ level, compact = false }: { level: number; compact?: boolean })
 }
 
 function IngredientExplorer({ item }: { item: MenuItem }) {
-  const [active, setActive] = useState(0);
-  const ingredient = item.ingredients[active];
+  const [activeName, setActiveName] = useState(item.ingredients[0]?.name ?? "");
+  const ingredient = item.ingredients.find((entry) => entry.name === activeName) ?? item.ingredients[0];
+
+  useEffect(() => {
+    setActiveName(item.ingredients[0]?.name ?? "");
+  }, [item.id, item.ingredients]);
+
+  if (!ingredient) return null;
 
   return (
     <section className="detail-section ingredient-section">
       <div className="section-label-row">
-        <div><p className="eyebrow gold">INGREDIENT EXPLORER</p><h3>What&apos;s inside?</h3></div>
-        <span>Tap to explore</span>
+        <div>
+          <p className="eyebrow gold">INGREDIENT EXPLORER</p>
+          <h3>What&apos;s inside?</h3>
+          <p className="section-hint">Tap an ingredient to learn what it adds to the dish.</p>
+        </div>
       </div>
-      <div className="ingredient-chips" role="list">
-        {item.ingredients.map((entry, index) => (
+      <div className="ingredient-chips" role="list" aria-label="Ingredients">
+        {item.ingredients.map((entry) => (
           <button
+            type="button"
             key={entry.name}
-            className={active === index ? "ingredient-chip active" : "ingredient-chip"}
-            onClick={() => setActive(index)}
-            aria-pressed={active === index}
+            className={activeName === entry.name ? "ingredient-chip active" : "ingredient-chip"}
+            onClick={() => setActiveName(entry.name)}
+            aria-pressed={activeName === entry.name}
           >
-            <span>{index + 1}</span>{entry.name}
+            {entry.name}
           </button>
         ))}
       </div>
-      <div className="ingredient-focus" key={ingredient.name}>
-        <span className="ingredient-number">{active + 1}</span>
-        <div><b>{ingredient.name}</b><p>{ingredient.note}</p></div>
+      <div className="ingredient-focus" key={ingredient.name} aria-live="polite">
+        <div className="ingredient-icon">✦</div>
+        <div>
+          <b>{ingredient.name}</b>
+          <p>{ingredient.note}</p>
+        </div>
       </div>
     </section>
   );
@@ -62,7 +75,7 @@ export default function Home() {
   const [justAdded, setJustAdded] = useState<string | null>(null);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => setSplash(false), 1650);
+    const timer = window.setTimeout(() => setSplash(false), 2600);
     try {
       const saved = window.localStorage.getItem("chennai-dosa-cart");
       if (saved) setCart(JSON.parse(saved));
@@ -113,13 +126,22 @@ export default function Home() {
   return (
     <>
       <div className={`splash ${splash ? "" : "splash-away"}`} aria-hidden={!splash}>
-        <div className="splash-orbit orbit-one" />
-        <div className="splash-orbit orbit-two" />
-        <div className="splash-mark">CD</div>
-        <p className="eyebrow">WELCOME TO</p>
-        <h1>Chennai Dosa</h1>
-        <p className="splash-tagline">quality is trust</p>
-        <div className="splash-line" />
+        <div className="splash-glow splash-glow-one" />
+        <div className="splash-glow splash-glow-two" />
+        <div className="aroma aroma-one" />
+        <div className="aroma aroma-two" />
+        <div className="aroma aroma-three" />
+        <div className="splash-grain" />
+        <div className="splash-card">
+          <div className="splash-logo-shell">
+            <img src="/chennai-dosa-logo.png" alt="" className="splash-logo" />
+          </div>
+          <p className="eyebrow splash-welcome">VANAKKAM · WELCOME</p>
+          <h1>Chennai Dosa</h1>
+          <p className="splash-tagline">quality is trust</p>
+          <div className="splash-divider"><span /></div>
+          <p className="splash-message">Aromatic. Fresh. Made to be discovered.</p>
+        </div>
       </div>
 
       <main className={splash ? "app app-hidden" : "app"}>
@@ -129,8 +151,10 @@ export default function Home() {
 
           <nav className="topbar">
             <div className="brand">
-              <span className="brand-mark">CD</span>
-              <span><b>Chennai Dosa</b><small>quality is trust</small></span>
+              <span className="brand-logo-shell">
+                <img src="/chennai-dosa-logo.png" alt="Chennai Dosa" className="brand-logo" />
+              </span>
+              <span className="brand-copy"><b>Chennai Dosa</b><small>quality is trust</small></span>
             </div>
             <button className="mini-cart" onClick={() => setCartOpen(true)} aria-label="Open cart">
               <span>⌁</span>{cartCount > 0 && <b>{cartCount}</b>}
@@ -246,10 +270,25 @@ export default function Home() {
               <p className="detail-subtitle">{selected.subtitle}</p>
               <p className="detail-description">{selected.description}</p>
 
-              <div className="detail-stats">
-                <div><small>SPICE</small><Spice level={selected.spice} /></div>
-                <div><small>STYLE</small><strong>{selected.veg ? "Vegetarian" : "Non-veg"}</strong></div>
+              <div className="detail-stats detail-stats-three">
+                <div>
+                  <small>SPICE</small>
+                  <Spice level={selected.spice} />
+                </div>
+                <div>
+                  <small>STYLE</small>
+                  <strong>{selected.veg ? "Vegetarian" : "Non-veg"}</strong>
+                </div>
+                <div className="allergen-stat">
+                  <small>ALLERGENS</small>
+                  <div className="allergen-tags">
+                    {selected.allergens.length > 0 ? selected.allergens.map((allergen) => (
+                      <span className="allergen-pill" key={allergen}>{allergen}</span>
+                    )) : <span className="allergen-none">None listed</span>}
+                  </div>
+                </div>
               </div>
+              <p className="allergen-note">Allergen information is for this demo recipe only. Restaurants should verify ingredients and cross-contact before publishing.</p>
 
               <section className="detail-section taste-profile">
                 <div className="section-label-row">
