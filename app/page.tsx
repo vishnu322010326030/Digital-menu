@@ -161,8 +161,7 @@ export default function Home() {
 
   return (
     <>
-      {splash && (
-        <div className="splash" aria-hidden="false">
+      {splash && (\n        <div className="splash" aria-hidden="false">
         <div className="splash-glow splash-glow-one" />
         <div className="splash-glow splash-glow-two" />
         <div className="aroma aroma-one" />
@@ -191,7 +190,7 @@ export default function Home() {
         </div>
       </div>
 
-      <main className="app" id="menu">
+      )}\n\n      <main className="app" id="menu">
         <header className="hero">
           <div className="ambient ambient-a" />
           <div className="ambient ambient-b" />
