@@ -1018,3 +1018,21 @@ button:focus-visible {
   width: 52px;
   height: 40px;
 }
+
+
+/* Fix menu card bottom-right overlap */
+.card-copy {
+  padding-right: 50px;
+}
+.card-meta {
+  padding-right: 4px;
+}
+.explore {
+  margin-left: auto;
+  margin-right: 10px;
+  white-space: nowrap;
+}
+.quick-add {
+  right: 14px;
+  bottom: 12px;
+}
