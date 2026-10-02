@@ -1036,3 +1036,70 @@ button:focus-visible {
   right: 14px;
   bottom: 12px;
 }
+
+
+/* Mobile splash reliability: CSS fallback independent of React timers. */
+.splash {
+  animation: splashAutoExit .42s 3.45s ease forwards;
+}
+.splash.splash-away {
+  animation: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+@keyframes splashAutoExit {
+  0% {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+  99% {
+    opacity: 0;
+    visibility: visible;
+    pointer-events: auto;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+.splash-skip {
+  margin: 18px auto 0;
+  min-width: 112px;
+  min-height: 36px;
+  padding: 0 16px;
+  border: 1px solid rgba(240,212,151,.18);
+  border-radius: 999px;
+  background: rgba(255,255,255,.065);
+  color: #e9d5ae;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+}
+.splash-skip:active {
+  transform: scale(.96);
+  background: rgba(214,174,100,.16);
+}
+
+/* The menu is never hidden behind the intro; the splash is only an overlay. */
+.app,
+.app-hidden {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .splash {
+    animation: splashAutoExit .2s 2.8s ease forwards !important;
+  }
+  .splash.splash-away {
+    animation: none !important;
+  }
+}
