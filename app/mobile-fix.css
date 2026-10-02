@@ -1,0 +1,29 @@
+/* Mobile interaction reliability.
+   The splash is visual-only except for its explicit Enter menu button.
+   This prevents an invisible/stale full-screen splash layer from intercepting
+   taps on food cards, filters, cart controls, and other menu buttons. */
+.splash {
+  pointer-events: none !important;
+  touch-action: none;
+}
+
+.splash-skip {
+  pointer-events: auto !important;
+  touch-action: manipulation;
+}
+
+/* Improve tap responsiveness on real mobile browsers. */
+button,
+.card-main,
+.quick-add,
+.diet-toggle,
+.category-chip,
+.mini-cart,
+.cart-dock,
+.pairing-view,
+.pairing-add,
+.ingredient-chip,
+.add-detail,
+.round-close {
+  touch-action: manipulation;
+}
