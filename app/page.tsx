@@ -41,10 +41,155 @@ function IngredientExplorer({ item }: { item: MenuItem }) {
       </div>
       <div className="ingredient-chips" role="list" aria-label="Ingredients">
         {item.ingredients.map((entry) => (
+          <button
+            type="button"
+            key={entry.name}
+            className={activeName === entry.name ? "ingredient-chip active" : "ingredient-chip"}
+            onClick={() => setActiveName(entry.name)}
+            aria-pressed={activeName === entry.name}
+          >
+            {entry.name}
+          </button>
+        ))}
+      </div>
+      <div className="ingredient-focus" key={ingredient.name} aria-live="polite">
+        <div className="ingredient-icon">✦</div>
+        <div>
+          <b>{ingredient.name}</b>
+          <p>{ingredient.note}</p>
         </div>
+      </div>
+    </section>
+  );
+}
 
+export default function Home() {
+  const [splash, setSplash] = useState(true);
+  const [query, setQuery] = useState("");
+  const [vegOnly, setVegOnly] = useState(false);
+  const [nonVegOnly, setNonVegOnly] = useState(false);
+  const [category, setCategory] = useState<(typeof categories)[number]>("All");
+  const [selected, setSelected] = useState<MenuItem | null>(null);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [cart, setCart] = useState<Cart>({});
+  const [justAdded, setJustAdded] = useState<string | null>(null);
+
+  useEffect(() => {
+    let closed = false;
+
+    const closeSplash = () => {
+      if (closed) return;
+      closed = true;
+      setSplash(false);
+    };
+
+    // Normal intro duration.
+    const timer = window.setTimeout(closeSplash, 2600);
+
+    // Extra JS fail-safe in case a mobile browser delays the first timer.
+    const safetyTimer = window.setTimeout(closeSplash, 4200);
+
+    // Browsers such as mobile Safari may restore a page from the back/forward
+    // cache with timers/state in an unusual state. Never replay a stuck splash.
+    const handlePageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) closeSplash();
+    };
+
+    // If the tab/app becomes visible again after being backgrounded during
+    // the intro, close the splash instead of making the customer wait again.
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible" && performance.now() > 3000) {
+        closeSplash();
+      }
+    };
+
+    window.addEventListener("pageshow", handlePageShow);
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    try {
+      const saved = window.localStorage.getItem("chennai-dosa-cart");
+      if (saved) setCart(JSON.parse(saved));
+    } catch {}
+
+    return () => {
+      window.clearTimeout(timer);
+      window.clearTimeout(safetyTimer);
+      window.removeEventListener("pageshow", handlePageShow);
+      document.removeEventListener("visibilitychange", handleVisibility);
+    };
+  }, []);
+
+  useEffect(() => {
+    try { window.localStorage.setItem("chennai-dosa-cart", JSON.stringify(cart)); } catch {}
+  }, [cart]);
+
+  useEffect(() => {
+    document.body.style.overflow = selected || cartOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [selected, cartOpen]);
+
+  const filtered = useMemo(() => {
+    const term = query.trim().toLowerCase();
+    return menuItems.filter((item) => {
+      const q = !term || [item.name, item.category, item.subtitle, ...item.taste, ...item.ingredients.map(i => i.name)].join(" ").toLowerCase().includes(term);
+      const type = vegOnly === nonVegOnly || (vegOnly && item.veg) || (nonVegOnly && !item.veg);
+      const cat = category === "All" || item.category === category;
+      return q && type && cat;
+    });
+  }, [query, vegOnly, nonVegOnly, category]);
+
+  const cartCount = Object.values(cart).reduce((a, b) => a + b, 0);
+  const cartTotal = menuItems.reduce((sum, item) => sum + (cart[item.id] || 0) * item.price, 0);
+
+  function add(id: string) {
+    setCart((c) => ({ ...c, [id]: (c[id] || 0) + 1 }));
+    setJustAdded(id);
+    window.setTimeout(() => setJustAdded((current) => current === id ? null : current), 850);
+  }
+
+  function change(id: string, delta: number) {
+    setCart((c) => {
+      const next = Math.max(0, (c[id] || 0) + delta);
+      const out = { ...c };
+      if (!next) delete out[id]; else out[id] = next;
+      return out;
+    });
+  }
+
+  const pairingsWith = selected?.pairings.filter(p => p.moment === "with") ?? [];
+  const pairingsAfter = selected?.pairings.filter(p => p.moment === "after") ?? [];
+
+  return (
+    <>
+      {splash && (
+        <div className="splash" aria-hidden="false">
+        <div className="splash-glow splash-glow-one" />
+        <div className="splash-glow splash-glow-two" />
+        <div className="aroma aroma-one" />
+        <div className="aroma aroma-two" />
+        <div className="aroma aroma-three" />
+        <div className="splash-grain" />
+        <div className="splash-card">
+          <div className="splash-logo-shell">
+            <img src="/chennai-dosa-logo.png" alt="" className="splash-logo" />
+          </div>
+          <p className="eyebrow splash-welcome">VANAKKAM · WELCOME</p>
+          <h1>Chennai Dosa</h1>
+          <p className="splash-tagline">quality is trust</p>
+          <div className="splash-divider"><span /></div>
+          <p className="splash-message">Aromatic. Fresh. Made to be discovered.</p>
+          <button
+            type="button"
+            className="splash-skip"
+            onClick={(event) => {
+              event.stopPropagation();
+              setSplash(false);
+            }}
+          >
+            Enter menu
+          </button>
         </div>
-      )}
+      </div>
 
       <main className="app" id="menu">
         <header className="hero">
