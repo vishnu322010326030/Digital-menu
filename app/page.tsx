@@ -9,12 +9,44 @@ function VegMark({ veg }: { veg: boolean }) {
   return <span className={`veg-mark ${veg ? "is-veg" : "is-nonveg"}`} aria-label={veg ? "Vegetarian" : "Non-vegetarian"}><span /></span>;
 }
 
-function Heat({ level, compact = false }: { level: number; compact?: boolean }) {
-  if (level === 0) return <span className="heat mild">No heat</span>;
+function Spice({ level, compact = false }: { level: number; compact?: boolean }) {
   return (
-    <span className={`heat ${compact ? "compact" : ""}`} aria-label={`Heat level ${level} out of 5`}>
-      {Array.from({ length: 5 }, (_, i) => <span key={i} className={i < level ? "lit" : ""}>●</span>)}
+    <span className={`spice-meter ${compact ? "compact" : ""}`} aria-label={`Spice level ${level} out of 5`}>
+      {Array.from({ length: 5 }, (_, i) => (
+        <span key={i} className={i < level ? "chilli active" : "chilli"} aria-hidden="true">🌶️</span>
+      ))}
+      {!compact && level === 0 && <small>No spice</small>}
     </span>
+  );
+}
+
+function IngredientExplorer({ item }: { item: MenuItem }) {
+  const [active, setActive] = useState(0);
+  const ingredient = item.ingredients[active];
+
+  return (
+    <section className="detail-section ingredient-section">
+      <div className="section-label-row">
+        <div><p className="eyebrow gold">INGREDIENT EXPLORER</p><h3>What&apos;s inside?</h3></div>
+        <span>Tap to explore</span>
+      </div>
+      <div className="ingredient-chips" role="list">
+        {item.ingredients.map((entry, index) => (
+          <button
+            key={entry.name}
+            className={active === index ? "ingredient-chip active" : "ingredient-chip"}
+            onClick={() => setActive(index)}
+            aria-pressed={active === index}
+          >
+            <span>{index + 1}</span>{entry.name}
+          </button>
+        ))}
+      </div>
+      <div className="ingredient-focus" key={ingredient.name}>
+        <span className="ingredient-number">{active + 1}</span>
+        <div><b>{ingredient.name}</b><p>{ingredient.note}</p></div>
+      </div>
+    </section>
   );
 }
 
@@ -27,6 +59,7 @@ export default function Home() {
   const [selected, setSelected] = useState<MenuItem | null>(null);
   const [cartOpen, setCartOpen] = useState(false);
   const [cart, setCart] = useState<Cart>({});
+  const [justAdded, setJustAdded] = useState<string | null>(null);
 
   useEffect(() => {
     const timer = window.setTimeout(() => setSplash(false), 1650);
@@ -49,7 +82,7 @@ export default function Home() {
   const filtered = useMemo(() => {
     const term = query.trim().toLowerCase();
     return menuItems.filter((item) => {
-      const q = !term || [item.name, item.category, item.subtitle, ...item.taste].join(" ").toLowerCase().includes(term);
+      const q = !term || [item.name, item.category, item.subtitle, ...item.taste, ...item.ingredients.map(i => i.name)].join(" ").toLowerCase().includes(term);
       const type = vegOnly === nonVegOnly || (vegOnly && item.veg) || (nonVegOnly && !item.veg);
       const cat = category === "All" || item.category === category;
       return q && type && cat;
@@ -61,6 +94,8 @@ export default function Home() {
 
   function add(id: string) {
     setCart((c) => ({ ...c, [id]: (c[id] || 0) + 1 }));
+    setJustAdded(id);
+    window.setTimeout(() => setJustAdded((current) => current === id ? null : current), 850);
   }
 
   function change(id: string, delta: number) {
@@ -71,6 +106,9 @@ export default function Home() {
       return out;
     });
   }
+
+  const pairingsWith = selected?.pairings.filter(p => p.moment === "with") ?? [];
+  const pairingsAfter = selected?.pairings.filter(p => p.moment === "after") ?? [];
 
   return (
     <>
@@ -107,7 +145,7 @@ export default function Home() {
 
           <div className="search-shell">
             <span className="search-icon">⌕</span>
-            <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search dish, flavor or category..." aria-label="Search menu" />
+            <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search dish, flavor or ingredient..." aria-label="Search menu" />
             {query && <button onClick={() => setQuery("")} className="clear-btn" aria-label="Clear search">×</button>}
           </div>
         </header>
@@ -155,12 +193,14 @@ export default function Home() {
                       {item.taste.slice(0,2).map(t => <span key={t}>{t}</span>)}
                     </div>
                     <div className="card-meta">
-                      <span className="spice-label">HEAT</span><Heat level={item.heat} compact />
+                      <span className="spice-label">SPICE</span><Spice level={item.spice} compact />
                       <span className="explore">Explore <b>↗</b></span>
                     </div>
                   </div>
                 </button>
-                <button className="quick-add" onClick={() => add(item.id)} aria-label={`Add ${item.name} to cart`}>+</button>
+                <button className={`quick-add ${justAdded === item.id ? "added" : ""}`} onClick={() => add(item.id)} aria-label={`Add ${item.name} to cart`}>
+                  {justAdded === item.id ? "✓" : "+"}
+                </button>
               </article>
             ))}
           </div>
@@ -199,6 +239,7 @@ export default function Home() {
               <button className="round-close" onClick={() => setSelected(null)}>×</button>
               <div className="detail-badge"><VegMark veg={selected.veg} /> {selected.veg ? "VEGETARIAN" : "NON-VEGETARIAN"}</div>
             </div>
+
             <div className="detail-content">
               <p className="eyebrow gold">{selected.category}</p>
               <div className="detail-title"><h2>{selected.name}</h2><b>${selected.price}</b></div>
@@ -206,21 +247,91 @@ export default function Home() {
               <p className="detail-description">{selected.description}</p>
 
               <div className="detail-stats">
-                <div><small>HEAT</small><Heat level={selected.heat} /></div>
+                <div><small>SPICE</small><Spice level={selected.spice} /></div>
                 <div><small>STYLE</small><strong>{selected.veg ? "Vegetarian" : "Non-veg"}</strong></div>
               </div>
 
-              <div className="flavor-block">
-                <small>TASTE AT A GLANCE</small>
-                <div>{selected.taste.map(t => <span key={t}>{t}</span>)}</div>
-              </div>
+              <section className="detail-section taste-profile">
+                <div className="section-label-row">
+                  <div><p className="eyebrow gold">TASTE PROFILE</p><h3>How it feels on your palate</h3></div>
+                  <span>Flavor DNA</span>
+                </div>
+                <div className="taste-bars">
+                  {selected.tasteProfile.map(metric => (
+                    <div className="taste-metric" key={metric.label}>
+                      <div><span>{metric.label}</span><b>{metric.value}%</b></div>
+                      <div className="taste-track"><i style={{ width: `${metric.value}%` }} /></div>
+                    </div>
+                  ))}
+                </div>
+              </section>
 
-              <div className="phase-note">
-                <span>✦</span><div><b>More is coming</b><p>Taste profiles, ingredient explorer, pairings and food discovery arrive in the next phases.</p></div>
-              </div>
+              <IngredientExplorer key={selected.id} item={selected} />
 
-              <button className="add-detail" onClick={() => add(selected.id)}>
-                <span>Add to cart</span><b>${selected.price.toFixed(2)}</b>
+              <section className="detail-section like-card">
+                <span className="like-spark">✦</span>
+                <div>
+                  <p className="eyebrow gold">YOU&apos;LL PROBABLY LIKE THIS IF...</p>
+                  <p>You enjoy {selected.likeIf}</p>
+                </div>
+              </section>
+
+              <section className="detail-section pairing-section">
+                <div className="section-label-row pairing-heading">
+                  <div><p className="eyebrow gold">SMART PAIRINGS</p><h3>Make it a complete experience</h3></div>
+                  <span>Curated</span>
+                </div>
+
+                {pairingsWith.length > 0 && (
+                  <div className="pairing-group">
+                    <small className="pairing-kicker">BEST WITH</small>
+                    <div className="pairing-list">
+                      {pairingsWith.map(pairing => {
+                        const item = menuItems.find(i => i.id === pairing.id);
+                        if (!item) return null;
+                        return (
+                          <article className="pairing-card" key={`with-${pairing.id}`}>
+                            <button className="pairing-view" onClick={() => setSelected(item)}>
+                              <img src={item.image} alt="" />
+                              <span><b>{item.name}</b><small>{pairing.why}</small></span>
+                            </button>
+                            <button className={`pairing-add ${justAdded === item.id ? "added" : ""}`} onClick={() => add(item.id)} aria-label={`Add ${item.name}`}>
+                              {justAdded === item.id ? "✓" : "+"}
+                            </button>
+                          </article>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {pairingsAfter.length > 0 && (
+                  <div className="pairing-group after">
+                    <small className="pairing-kicker">FINISH WITH</small>
+                    <div className="pairing-list">
+                      {pairingsAfter.map(pairing => {
+                        const item = menuItems.find(i => i.id === pairing.id);
+                        if (!item) return null;
+                        return (
+                          <article className="pairing-card finish" key={`after-${pairing.id}`}>
+                            <button className="pairing-view" onClick={() => setSelected(item)}>
+                              <img src={item.image} alt="" />
+                              <span><b>{item.name}</b><small>{pairing.why}</small></span>
+                            </button>
+                            <button className={`pairing-add ${justAdded === item.id ? "added" : ""}`} onClick={() => add(item.id)} aria-label={`Add ${item.name}`}>
+                              {justAdded === item.id ? "✓" : "+"}
+                            </button>
+                          </article>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </section>
+
+              <button className={`add-detail ${justAdded === selected.id ? "added" : ""}`} onClick={() => add(selected.id)}>
+                <span>{justAdded === selected.id ? "Added to cart ✓" : "Add to cart"}</span>
+                <b>{justAdded === selected.id ? `${cart[selected.id] || 1} in cart` : `$${selected.price.toFixed(2)}`}</b>
               </button>
             </div>
           </section>
