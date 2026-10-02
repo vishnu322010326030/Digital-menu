@@ -7,11 +7,6 @@
   touch-action: none;
 }
 
-.splash-skip {
-  pointer-events: auto !important;
-  touch-action: manipulation;
-}
-
 /* Improve tap responsiveness on real mobile browsers. */
 button,
 .card-main,
@@ -26,4 +21,10 @@ button,
 .add-detail,
 .round-close {
   touch-action: manipulation;
+}
+
+/* Decorative splash never owns the touch layer. */
+.splash,
+.splash * {
+  pointer-events: none !important;
 }
