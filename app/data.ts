@@ -54,7 +54,7 @@ export const menuItems: MenuItem[] = [
       { name: "Coriander", note: "Fresh, citrusy-herbal flavor." },
       { name: "Pastry shell", note: "Thin wheat shell fried until crisp and flaky." },
     ],
-    likeIf: "you enjoy crispy savory pastries, potato snacks, empanadas or lightly spiced appetizers.",
+    likeIf: "You enjoy crispy savory pastries, potato snacks, empanadas or lightly spiced appetizers.",
     pairings: [
       { id: "masala-chai", moment: "with", why: "Warm chai balances the crisp, savory filling." },
       { id: "gulab-jamun", moment: "after", why: "A warm syrupy sweet makes an easy finish after a salty starter." },
@@ -84,7 +84,7 @@ export const menuItems: MenuItem[] = [
       { name: "Garlic", note: "Deep savory aroma." },
       { name: "Tikka spices", note: "Aromatic blend that gives the dish its signature roasted flavor." },
     ],
-    likeIf: "you enjoy grilled chicken, BBQ, smoky meats or kebabs.",
+    likeIf: "You enjoy grilled chicken, BBQ, smoky meats or kebabs.",
     pairings: [
       { id: "garlic-naan", moment: "with", why: "Soft buttery naan rounds out the smoky grilled chicken." },
       { id: "mango-lassi", moment: "with", why: "Cool mango yogurt softens the spice and char." },
@@ -117,7 +117,7 @@ export const menuItems: MenuItem[] = [
       { name: "Kasuri methi", note: "Dried fenugreek leaves with a savory, slightly earthy aroma." },
       { name: "Garam masala", note: "A warm aromatic Indian spice blend." },
     ],
-    likeIf: "you enjoy creamy tomato sauces, rich comfort food and tender grilled chicken.",
+    likeIf: "You enjoy creamy tomato sauces, rich comfort food and tender grilled chicken.",
     pairings: [
       { id: "garlic-naan", moment: "with", why: "The soft bread is ideal for scooping up the creamy sauce." },
       { id: "vegetable-biryani", moment: "with", why: "Fragrant rice adds texture and aromatic contrast." },
@@ -150,7 +150,7 @@ export const menuItems: MenuItem[] = [
       { name: "Cumin", note: "Warm and earthy, especially good with spinach." },
       { name: "Cream", note: "Rounds out the greens and spices." },
     ],
-    likeIf: "you enjoy creamed spinach, mild cheese, comforting vegetarian dishes or earthy flavors.",
+    likeIf: "You enjoy creamed spinach, mild cheese, comforting vegetarian dishes or earthy flavors.",
     pairings: [
       { id: "garlic-naan", moment: "with", why: "Garlic naan is perfect for scooping the thick spinach sauce." },
       { id: "vegetable-biryani", moment: "with", why: "Fragrant rice keeps the meal filling without adding meat." },
@@ -183,7 +183,7 @@ export const menuItems: MenuItem[] = [
       { name: "Saffron", note: "Adds floral aroma and golden color." },
       { name: "Whole spices", note: "Cardamom, cloves and cinnamon create the biryani's perfume." },
     ],
-    likeIf: "you enjoy seasoned rice bowls, roasted chicken, pilaf or deeply aromatic one-pot meals.",
+    likeIf: "You enjoy seasoned rice bowls, roasted chicken, pilaf or deeply aromatic one-pot meals.",
     pairings: [
       { id: "mango-lassi", moment: "with", why: "The cold, creamy drink cools the spice between bites." },
       { id: "chicken-tikka", moment: "with", why: "A smoky starter adds char before the aromatic rice." },
@@ -214,7 +214,7 @@ export const menuItems: MenuItem[] = [
       { name: "Fried onion", note: "Deep sweetness and crisp edges." },
       { name: "Whole spices", note: "Cardamom, clove and cinnamon perfume the rice." },
     ],
-    likeIf: "you enjoy vegetable rice bowls, pilaf and aromatic meat-free comfort food.",
+    likeIf: "You enjoy vegetable rice bowls, pilaf and aromatic meat-free comfort food.",
     pairings: [
       { id: "palak-paneer", moment: "with", why: "Creamy spinach paneer adds a rich vegetarian side." },
       { id: "mango-lassi", moment: "with", why: "A cooling drink balances the warm spices." },
@@ -244,7 +244,7 @@ export const menuItems: MenuItem[] = [
       { name: "Butter", note: "Brushed on hot for richness and shine." },
       { name: "Cilantro", note: "Adds a fresh herbal finish." },
     ],
-    likeIf: "you enjoy soft flatbreads, garlic bread, buttery rolls or lightly charred bread.",
+    likeIf: "You enjoy soft flatbreads, garlic bread, buttery rolls or lightly charred bread.",
     pairings: [
       { id: "butter-chicken", moment: "with", why: "One of the easiest and most satisfying curry-and-bread combinations." },
       { id: "palak-paneer", moment: "with", why: "Its soft texture is perfect for scooping thick spinach curry." },
@@ -276,7 +276,7 @@ export const menuItems: MenuItem[] = [
       { name: "Curry leaves", note: "Highly aromatic leaves used throughout South Indian cooking." },
       { name: "Sambar", note: "Tangy lentil-vegetable stew served alongside." },
     ],
-    likeIf: "you enjoy crispy crepes, savory breakfast foods, potato fillings or foods meant for dipping.",
+    likeIf: "You enjoy crispy crepes, savory breakfast foods, potato fillings or foods meant for dipping.",
     pairings: [
       { id: "masala-chai", moment: "with", why: "Warm spiced tea complements the crisp dosa and savory filling." },
       { id: "mango-lassi", moment: "with", why: "A cool drink is refreshing alongside sambar and chutney." },
@@ -306,7 +306,7 @@ export const menuItems: MenuItem[] = [
       { name: "Milk", note: "Keeps the drink smooth and pourable." },
       { name: "Cardamom", note: "Optional aromatic note that makes the drink distinctly Indian." },
     ],
-    likeIf: "you enjoy mango smoothies, yogurt drinks or creamy fruit shakes.",
+    likeIf: "You enjoy mango smoothies, yogurt drinks or creamy fruit shakes.",
     pairings: [
       { id: "chicken-biryani", moment: "with", why: "Its cooling sweetness works especially well with aromatic spicy rice." },
       { id: "chicken-tikka", moment: "with", why: "The cold yogurt drink balances smoky grilled chicken." },
@@ -338,7 +338,7 @@ export const menuItems: MenuItem[] = [
       { name: "Cinnamon", note: "Warm woody sweetness." },
       { name: "Clove", note: "Deep aromatic spice used in small amounts." },
     ],
-    likeIf: "you enjoy chai lattes, spiced tea, milky black tea or warm cinnamon-cardamom flavors.",
+    likeIf: "You enjoy chai lattes, spiced tea, milky black tea or warm cinnamon-cardamom flavors.",
     pairings: [
       { id: "samosa", moment: "with", why: "Crispy savory samosa and hot chai are a classic snack pairing." },
       { id: "masala-dosa", moment: "with", why: "A warm cup works well alongside a crisp savory dosa." },
@@ -369,10 +369,10 @@ export const menuItems: MenuItem[] = [
       { name: "Rose", note: "A light floral aroma may be added to the syrup." },
       { name: "Pistachio", note: "Nutty garnish and a little texture." },
     ],
-    likeIf: "you enjoy doughnut holes, syrup-soaked cakes or very soft warm desserts.",
+    likeIf: "You enjoy doughnut holes, syrup-soaked cakes or very soft warm desserts.",
     pairings: [
       { id: "masala-chai", moment: "with", why: "Warm tea cuts through the dessert's syrupy sweetness." },
-      { id: "butter-chicken", moment: "after", why: "A classic sweet finish after a rich savory curry meal." },
+      { id: "mango-lassi", moment: "with", why: "A cool mango drink turns dessert into a playful sweet pairing." },
     ],
     description: "Warm milk-solid dumplings soaked in fragrant syrup, finished with pistachio.",
     image: "https://cf-img-a-in.tosshub.com/sites/visualstory/wp/2024/08/Gulab-Jamun.jpg?size=%2A%3A900",
@@ -399,11 +399,10 @@ export const menuItems: MenuItem[] = [
       { name: "Cardamom", note: "Sweet aromatic spice." },
       { name: "Pistachio", note: "Nutty garnish and delicate crunch." },
     ],
-    likeIf: "you enjoy cheesecake, tres leches, panna cotta or chilled milk-based desserts.",
+    likeIf: "You enjoy cheesecake, tres leches, panna cotta or chilled milk-based desserts.",
     pairings: [
       { id: "masala-chai", moment: "with", why: "Hot aromatic tea contrasts beautifully with chilled rasmalai." },
-      { id: "chicken-biryani", moment: "after", why: "Its cool creamy texture calms the palate after bold biryani." },
-      { id: "masala-dosa", moment: "after", why: "A light chilled dessert works well after a crisp South Indian main." },
+      { id: "mango-lassi", moment: "with", why: "Mango and saffron create a soft, fragrant dessert-and-drink pairing." },
     ],
     description: "Soft cheese dumplings in chilled sweetened milk with saffron and pistachio.",
     image: "https://upload.wikimedia.org/wikipedia/commons/4/46/Rasmalai.jpg",
