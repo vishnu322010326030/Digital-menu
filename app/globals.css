@@ -994,3 +994,27 @@ button:focus-visible {
   0% { transform: scaleX(0); opacity: .25; }
   100% { transform: scaleX(1); opacity: .95; }
 }
+
+.cart-icon {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.brand-logo-shell,
+.splash-logo-shell {
+  background: transparent;
+}
+.brand-logo,
+.splash-logo {
+  opacity: 1 !important;
+  visibility: visible !important;
+  filter: none;
+}
+.brand-logo-shell {
+  width: 52px;
+  height: 40px;
+}
