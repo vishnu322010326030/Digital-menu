@@ -25,6 +25,7 @@ export type MenuItem = {
   taste: string[];
   tasteProfile: TasteMetric[];
   ingredients: Ingredient[];
+  allergens: string[];
   likeIf: string;
   pairings: Pairing[];
   description: string;
@@ -54,6 +55,7 @@ export const menuItems: MenuItem[] = [
       { name: "Coriander", note: "Fresh, citrusy-herbal flavor." },
       { name: "Pastry shell", note: "Thin wheat shell fried until crisp and flaky." },
     ],
+    allergens: ["Gluten"],
     likeIf: "You enjoy crispy savory pastries, potato snacks, empanadas or lightly spiced appetizers.",
     pairings: [
       { id: "masala-chai", moment: "with", why: "Warm chai balances the crisp, savory filling." },
@@ -84,6 +86,7 @@ export const menuItems: MenuItem[] = [
       { name: "Garlic", note: "Deep savory aroma." },
       { name: "Tikka spices", note: "Aromatic blend that gives the dish its signature roasted flavor." },
     ],
+    allergens: ["Dairy"],
     likeIf: "You enjoy grilled chicken, BBQ, smoky meats or kebabs.",
     pairings: [
       { id: "garlic-naan", moment: "with", why: "Soft buttery naan rounds out the smoky grilled chicken." },
@@ -117,6 +120,7 @@ export const menuItems: MenuItem[] = [
       { name: "Kasuri methi", note: "Dried fenugreek leaves with a savory, slightly earthy aroma." },
       { name: "Garam masala", note: "A warm aromatic Indian spice blend." },
     ],
+    allergens: ["Dairy"],
     likeIf: "You enjoy creamy tomato sauces, rich comfort food and tender grilled chicken.",
     pairings: [
       { id: "garlic-naan", moment: "with", why: "The soft bread is ideal for scooping up the creamy sauce." },
@@ -150,6 +154,7 @@ export const menuItems: MenuItem[] = [
       { name: "Cumin", note: "Warm and earthy, especially good with spinach." },
       { name: "Cream", note: "Rounds out the greens and spices." },
     ],
+    allergens: ["Dairy"],
     likeIf: "You enjoy creamed spinach, mild cheese, comforting vegetarian dishes or earthy flavors.",
     pairings: [
       { id: "garlic-naan", moment: "with", why: "Garlic naan is perfect for scooping the thick spinach sauce." },
@@ -183,6 +188,7 @@ export const menuItems: MenuItem[] = [
       { name: "Saffron", note: "Adds floral aroma and golden color." },
       { name: "Whole spices", note: "Cardamom, cloves and cinnamon create the biryani's perfume." },
     ],
+    allergens: [],
     likeIf: "You enjoy seasoned rice bowls, roasted chicken, pilaf or deeply aromatic one-pot meals.",
     pairings: [
       { id: "mango-lassi", moment: "with", why: "The cold, creamy drink cools the spice between bites." },
@@ -214,6 +220,7 @@ export const menuItems: MenuItem[] = [
       { name: "Fried onion", note: "Deep sweetness and crisp edges." },
       { name: "Whole spices", note: "Cardamom, clove and cinnamon perfume the rice." },
     ],
+    allergens: [],
     likeIf: "You enjoy vegetable rice bowls, pilaf and aromatic meat-free comfort food.",
     pairings: [
       { id: "palak-paneer", moment: "with", why: "Creamy spinach paneer adds a rich vegetarian side." },
@@ -244,6 +251,7 @@ export const menuItems: MenuItem[] = [
       { name: "Butter", note: "Brushed on hot for richness and shine." },
       { name: "Cilantro", note: "Adds a fresh herbal finish." },
     ],
+    allergens: ["Gluten","Dairy"],
     likeIf: "You enjoy soft flatbreads, garlic bread, buttery rolls or lightly charred bread.",
     pairings: [
       { id: "butter-chicken", moment: "with", why: "One of the easiest and most satisfying curry-and-bread combinations." },
@@ -276,6 +284,7 @@ export const menuItems: MenuItem[] = [
       { name: "Curry leaves", note: "Highly aromatic leaves used throughout South Indian cooking." },
       { name: "Sambar", note: "Tangy lentil-vegetable stew served alongside." },
     ],
+    allergens: [],
     likeIf: "You enjoy crispy crepes, savory breakfast foods, potato fillings or foods meant for dipping.",
     pairings: [
       { id: "masala-chai", moment: "with", why: "Warm spiced tea complements the crisp dosa and savory filling." },
@@ -306,6 +315,7 @@ export const menuItems: MenuItem[] = [
       { name: "Milk", note: "Keeps the drink smooth and pourable." },
       { name: "Cardamom", note: "Optional aromatic note that makes the drink distinctly Indian." },
     ],
+    allergens: ["Dairy"],
     likeIf: "You enjoy mango smoothies, yogurt drinks or creamy fruit shakes.",
     pairings: [
       { id: "chicken-biryani", moment: "with", why: "Its cooling sweetness works especially well with aromatic spicy rice." },
@@ -338,6 +348,7 @@ export const menuItems: MenuItem[] = [
       { name: "Cinnamon", note: "Warm woody sweetness." },
       { name: "Clove", note: "Deep aromatic spice used in small amounts." },
     ],
+    allergens: ["Dairy"],
     likeIf: "You enjoy chai lattes, spiced tea, milky black tea or warm cinnamon-cardamom flavors.",
     pairings: [
       { id: "samosa", moment: "with", why: "Crispy savory samosa and hot chai are a classic snack pairing." },
@@ -369,6 +380,7 @@ export const menuItems: MenuItem[] = [
       { name: "Rose", note: "A light floral aroma may be added to the syrup." },
       { name: "Pistachio", note: "Nutty garnish and a little texture." },
     ],
+    allergens: ["Dairy","Tree nuts"],
     likeIf: "You enjoy doughnut holes, syrup-soaked cakes or very soft warm desserts.",
     pairings: [
       { id: "masala-chai", moment: "with", why: "Warm tea cuts through the dessert's syrupy sweetness." },
@@ -399,6 +411,7 @@ export const menuItems: MenuItem[] = [
       { name: "Cardamom", note: "Sweet aromatic spice." },
       { name: "Pistachio", note: "Nutty garnish and delicate crunch." },
     ],
+    allergens: ["Dairy","Tree nuts"],
     likeIf: "You enjoy cheesecake, tres leches, panna cotta or chilled milk-based desserts.",
     pairings: [
       { id: "masala-chai", moment: "with", why: "Hot aromatic tea contrasts beautifully with chilled rasmalai." },
