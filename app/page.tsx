@@ -75,12 +75,48 @@ export default function Home() {
   const [justAdded, setJustAdded] = useState<string | null>(null);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => setSplash(false), 2600);
+    let closed = false;
+
+    const closeSplash = () => {
+      if (closed) return;
+      closed = true;
+      setSplash(false);
+    };
+
+    // Normal intro duration.
+    const timer = window.setTimeout(closeSplash, 2600);
+
+    // Extra JS fail-safe in case a mobile browser delays the first timer.
+    const safetyTimer = window.setTimeout(closeSplash, 4200);
+
+    // Browsers such as mobile Safari may restore a page from the back/forward
+    // cache with timers/state in an unusual state. Never replay a stuck splash.
+    const handlePageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) closeSplash();
+    };
+
+    // If the tab/app becomes visible again after being backgrounded during
+    // the intro, close the splash instead of making the customer wait again.
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible" && performance.now() > 3000) {
+        closeSplash();
+      }
+    };
+
+    window.addEventListener("pageshow", handlePageShow);
+    document.addEventListener("visibilitychange", handleVisibility);
+
     try {
       const saved = window.localStorage.getItem("chennai-dosa-cart");
       if (saved) setCart(JSON.parse(saved));
     } catch {}
-    return () => window.clearTimeout(timer);
+
+    return () => {
+      window.clearTimeout(timer);
+      window.clearTimeout(safetyTimer);
+      window.removeEventListener("pageshow", handlePageShow);
+      document.removeEventListener("visibilitychange", handleVisibility);
+    };
   }, []);
 
   useEffect(() => {
@@ -125,7 +161,7 @@ export default function Home() {
 
   return (
     <>
-      <div className={`splash ${splash ? "" : "splash-away"}`} aria-hidden={!splash}>
+      <div className={`splash ${splash ? "" : "splash-away"}`} aria-hidden={!splash} onClick={() => setSplash(false)}>
         <div className="splash-glow splash-glow-one" />
         <div className="splash-glow splash-glow-two" />
         <div className="aroma aroma-one" />
@@ -141,10 +177,20 @@ export default function Home() {
           <p className="splash-tagline">quality is trust</p>
           <div className="splash-divider"><span /></div>
           <p className="splash-message">Aromatic. Fresh. Made to be discovered.</p>
+          <button
+            type="button"
+            className="splash-skip"
+            onClick={(event) => {
+              event.stopPropagation();
+              setSplash(false);
+            }}
+          >
+            Enter menu
+          </button>
         </div>
       </div>
 
-      <main className={splash ? "app app-hidden" : "app"}>
+      <main className="app" id="menu">
         <header className="hero">
           <div className="ambient ambient-a" />
           <div className="ambient ambient-b" />
