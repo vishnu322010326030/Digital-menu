@@ -26,7 +26,15 @@ button,
 .pairing-add,
 .ingredient-chip,
 .add-detail,
-.round-close {
+.round-close,
+.shuffle-fab,
+.shuffler-back,
+.shuffle-option,
+.shuffle-next,
+.meal-pick-main,
+.meal-pick-add,
+.shuffle-add-meal,
+.shuffle-again {
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 }
