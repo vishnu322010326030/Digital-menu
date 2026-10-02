@@ -8,7 +8,9 @@
     "start": "next start",
     "check": "tsc --noEmit",
     "dev:lan": "next dev --webpack -H 0.0.0.0",
-    "mobile": "next build && next start -H 0.0.0.0"
+    "mobile": "next build && next start -H 0.0.0.0",
+    "test": "tsx --test tests/**/*.test.ts",
+    "verify": "npm run check && npm test && npm run build"
   },
   "dependencies": {
     "next": "^16.0.0",
@@ -19,6 +21,7 @@
     "@types/node": "^24.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "typescript": "^5.9.0"
+    "typescript": "^5.9.0",
+    "tsx": "^4.20.6"
   }
 }
