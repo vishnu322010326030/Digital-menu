@@ -157,7 +157,12 @@ export default function Home() {
               <span className="brand-copy"><b>Chennai Dosa</b><small>quality is trust</small></span>
             </div>
             <button className="mini-cart" onClick={() => setCartOpen(true)} aria-label="Open cart">
-              <span>⌁</span>{cartCount > 0 && <b>{cartCount}</b>}
+              <svg className="cart-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M3 4h2.2l1.9 9.1a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 1.9-1.4L20.2 8H7.1" />
+                <circle cx="9.5" cy="18.5" r="1.35" />
+                <circle cx="17.2" cy="18.5" r="1.35" />
+              </svg>
+              {cartCount > 0 && <b>{cartCount}</b>}
             </button>
           </nav>
 
