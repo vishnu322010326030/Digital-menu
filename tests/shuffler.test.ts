@@ -115,3 +115,63 @@ test("every meal has one starter, main, drink and dessert", () => {
   assert.equal(roles.filter((role) => role === "Drink").length, 1);
   assert.equal(roles.filter((role) => role === "Dessert").length, 1);
 });
+
+
+test("all 36 preference combinations return a complete valid meal", () => {
+  const mainCourses = ["biryani", "curry"] as const;
+  const diets = ["veg", "nonveg", "either"] as const;
+  const spices = ["mild", "medium", "bold"] as const;
+  const finishes = ["light", "sweet"] as const;
+
+  const validIds = new Set([
+    "samosa",
+    "chicken-tikka",
+    "butter-chicken",
+    "palak-paneer",
+    "chicken-biryani",
+    "vegetable-biryani",
+    "garlic-naan",
+    "masala-dosa",
+    "mango-lassi",
+    "masala-chai",
+    "gulab-jamun",
+    "rasmalai",
+  ]);
+
+  for (const mainCourse of mainCourses) {
+    for (const diet of diets) {
+      for (const spice of spices) {
+        for (const finish of finishes) {
+          const result = buildMealRecommendation({
+            mainCourse,
+            diet,
+            spice,
+            finish,
+          });
+
+          const roles = result.picks.map((pick) => pick.role);
+          const resultIds = ids(result);
+
+          assert.equal(roles.includes("Starter"), true);
+          assert.equal(roles.includes("Main"), true);
+          assert.equal(roles.includes("Drink"), true);
+          assert.equal(roles.includes("Dessert"), true);
+          assert.equal(resultIds.every((id) => validIds.has(id)), true);
+
+          if (mainCourse === "curry") {
+            assert.equal(roles.includes("Side"), true);
+            assert.equal(resultIds.includes("garlic-naan"), true);
+          } else {
+            assert.equal(roles.includes("Side"), false);
+          }
+
+          if (diet === "veg") {
+            assert.equal(resultIds.includes("chicken-tikka"), false);
+            assert.equal(resultIds.includes("chicken-biryani"), false);
+            assert.equal(resultIds.includes("butter-chicken"), false);
+          }
+        }
+      }
+    }
+  }
+});
