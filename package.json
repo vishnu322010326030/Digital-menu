@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "dev:lan": "next dev --webpack -H 0.0.0.0",
+    "mobile": "next build && next start -H 0.0.0.0"
   },
   "dependencies": {
     "next": "^16.0.0",
